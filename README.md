@@ -4,7 +4,7 @@
 
 ## 背景
 
-AliExpressでST7735ドライバの0.96インチディスプレイを調達した際に、正しく動かないものが出てきた。<BR>
+AliExpressでST7735ドライバの0.96インチディスプレイを調達した際に、正しく動かないものが出てきました。<BR>
 
 ネットを調べていたら、下記のフォーラムにあるように、ST7735のクローンとしてGC9106が乗っているものが出回っているようです。<BR>
 
@@ -14,7 +14,15 @@ LovyanGFXのパラメータ変更だけではうまく表示することがで�
 
 ## 機能
 
-LovyanGFXのAutoDetectを参考に、display IDをリードして、下位24bitが0x069100と一致するかを見てGC9106と判断します。<BR>
+display IDをリードして、ディスプレイドライバを判断し、デモ表示を行います。<BR>
+
+IDのリード方法は、下記を参考にしました。<BR>
+
+https://github.com/prenticedavid/ST7789_kbv/blob/master/examples/ST7789_readreg_diag/ST7789_readreg_diag.ino
+
+対応ディスプレイ：
+- ST7735S (0.96inch, 80x160)
+- GC9106 (0.96inch, 80x160)
 
 利用環境に合わせて、ディスプレイとの接続ピンの指定（DISP_XXXの定義）を変更してください。<BR>
 
@@ -30,7 +38,7 @@ LovyanGFXのAutoDetectを参考に、display IDをリードして、下位24bit�
 特に、GPIOポートから電力を供給する場合は、ポートの能力だけでなく、ディスプレイの消費電力と電源やCPUの供給量力とを見極めて使用してください。<BR>
 
 ![GC9106](image/GC9106.jpg)
-![ST7735](image/ST7735.jpg)
+![ST7735S](image/ST7735S.jpg)
 
 ST7735の消費電流が10mA未満に対し、GC9106は15mA程度消費するようです。<BR>
 

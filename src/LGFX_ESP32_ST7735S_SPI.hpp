@@ -26,9 +26,9 @@ class LGFX_ESP32_ST7735S_SPI : public lgfx::LGFX_Device
 
         cfg.spi_host = VSPI_HOST;
         cfg.spi_mode = 0;
-        cfg.freq_write = 20000000;
-        cfg.freq_read  = 16000000;
-        cfg.spi_3wire  = true;
+        cfg.freq_write = 40000000;
+        cfg.freq_read  = 15000000;
+        cfg.spi_3wire  = false;
         cfg.use_lock   = true;
         cfg.dma_channel = 1;
         cfg.pin_sclk = sclk;
@@ -65,7 +65,7 @@ class LGFX_ESP32_ST7735S_SPI : public lgfx::LGFX_Device
         _panel_instance.config(cfg);
       }
 
-      {
+      if (bl != -1) {
         auto cfg = _light_instance.config();
 
         cfg.pin_bl = bl;

@@ -8,24 +8,6 @@ class LGFX_ESP32_GC9106_SPI : public lgfx::LGFX_Device
 
   public:
 
-    uint32_t _read_panel_id(int32_t pin_cs, uint32_t cmd = 0x04, uint8_t dummy_read_bit = 1) // 0x04 = RDDID command
-    {
-      _bus_instance.beginTransaction();
-      pinMode(pin_cs, OUTPUT);
-      digitalWrite(pin_cs, HIGH);
-      _bus_instance.writeCommand(0, 8);
-      _bus_instance.wait();
-      digitalWrite(pin_cs, LOW);
-      _bus_instance.writeCommand(cmd, 8);
-      _bus_instance.beginRead(dummy_read_bit);
-      uint32_t res = _bus_instance.readData(32);
-      _bus_instance.endTransaction();
-      digitalWrite(pin_cs, HIGH);
-
-      ESP_LOGW(LIBRARY_NAME, "[Autodetect] read cmd:%02x = %08x", cmd, res);
-      return res;
-    }
-
     LGFX_ESP32_GC9106_SPI(int width, int height, int sclk, int mosi, int rst, int dc, int cs, int bl, int vcc = -1, int gnd = -1, int miso = -1, int busy = -1)
     {
       if (gnd != -1) {
@@ -44,9 +26,9 @@ class LGFX_ESP32_GC9106_SPI : public lgfx::LGFX_Device
 
         cfg.spi_host = VSPI_HOST;
         cfg.spi_mode = 0;
-        cfg.freq_write = 20000000;
-        cfg.freq_read  = 16000000;
-        cfg.spi_3wire  = true;
+        cfg.freq_write = 40000000;
+        cfg.freq_read  = 15000000;
+        cfg.spi_3wire  = false;
         cfg.use_lock   = true;
         cfg.dma_channel = 1;
         cfg.pin_sclk = sclk;
@@ -83,7 +65,7 @@ class LGFX_ESP32_GC9106_SPI : public lgfx::LGFX_Device
         _panel_instance.config(cfg);
       }
 
-      {
+      if (bl != -1) {
         auto cfg = _light_instance.config();
 
         cfg.pin_bl = bl;
